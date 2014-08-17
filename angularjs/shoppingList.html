@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="shoppingApp">
+<head>
+    <title>Today Shopping List</title>
+    <link href="bootstrap.css" rel="stylesheet" />
+    <script src="angular.js"></script>
+    <script>
+      angular.module("shoppingApp",["dotoFilters"]);
+    </script>
+    <script src="controllers/todoList.js"></script>
+     <script src="filters/todoFilters.js"></script>
+ </head>
+<body ng-controller="shoppingCtrl">
+    <div class="page-header">
+        <h1>
+            My To Do List
+            <span class="label" ng-class="warningLevel()"
+                  ng-hide="incompleteCount() == 0">
+                {{ShowRemain()}}
+            </span>
+        </h1>
+    </div>
+  
+    <div class="panel">
+        <div class="input-group">
+            <input class="form-control" ng-model="actionText" />
+            <span class="input-group-btn">
+                <button class="btn btn-default"
+                        ng-click="addNewItem(actionText)">
+                    New Item
+                </button>
+            </span>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Done</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in todo.items | orderBy:'action' | alreadyDone : false">
+                    <td>{{item.action}}</td>
+                    <td><input type="checkbox" ng-model="item.done" /></td>
+                </tr>
+            </tbody>
+        </table>
+
+        
+        <div class="page-header">
+        <h1>
+            In Done List
+        </h1>
+    </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Done</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in todo.items | orderBy:'action' | alreadyDone : true">
+                 <td><input type="checkbox" ng-model="item.done" /></td>
+                 <td><s>{{item.action}}</s></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
